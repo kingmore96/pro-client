@@ -6,8 +6,10 @@ import cn.net.icomp.hongyan.protocol_jfdj.command.Command0806;
 import cn.net.icomp.hongyan.protocol_jfdj.command.Command0808;
 import cn.net.icomp.hongyan.protocol_jfdj.enums.TimeType;
 import cn.net.icomp.hongyan.protocol_jfdj.enums.UpdateType;
+import cn.net.icomp.protestdemo.common.redis.RedisUtil;
 import com.alibaba.fastjson.JSONObject;
 import io.netty.channel.ChannelHandlerContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +18,49 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/jfdj")
 public class TestController {
+
+    @Autowired
+    private RedisUtil redisUtil;
+
+
+    /**
+     * 控制修改刀具id上传服务器的业务流程走向
+     *
+     * @param params
+     * @return
+     */
+    @RequestMapping(value = "/update0A03", method = RequestMethod.POST)
+    public String update0A03(@RequestBody JSONObject params) {
+        try {
+            System.out.println("接收到参数：" + params.toJSONString());
+            String operationType = params.getString("operation_type");
+            redisUtil.set("0A03:result", operationType);
+            return "ok";
+        } catch (Exception e) {
+            System.out.println("未知异常！" + e);
+            return "fail";
+        }
+    }
+
+    /**
+     * 控制换刀原因上传服务器的业务流程走向
+     *
+     * @param params
+     * @return
+     */
+    @RequestMapping(value = "/update0A05", method = RequestMethod.POST)
+    public String update0A05(@RequestBody JSONObject params) {
+        try {
+            System.out.println("接收到参数：" + params.toJSONString());
+            String operationType = params.getString("operation_type");
+            redisUtil.set("0A05:result", operationType);
+            return "ok";
+        } catch (Exception e) {
+            System.out.println("未知异常！" + e);
+            return "fail";
+        }
+    }
+
 
     @RequestMapping(value = "/operate", method = RequestMethod.POST)
     public String operate(@RequestBody JSONObject params) {
