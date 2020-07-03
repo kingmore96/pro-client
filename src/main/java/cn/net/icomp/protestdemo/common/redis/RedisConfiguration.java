@@ -57,4 +57,10 @@ public class RedisConfiguration {
         return redisTemplate;
     }
 
+    @Bean(name = "redisUtil")
+    public RedisUtil redisUtil(RedisTemplate<Object, Object> redisTemplate) {
+        RedisUtil redisUtil = new RedisUtil();
+        redisUtil.setRedisTemplate(redisTemplate);
+        return redisUtil;
+    }
 }

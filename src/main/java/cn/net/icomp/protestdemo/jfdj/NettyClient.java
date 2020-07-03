@@ -25,7 +25,6 @@ public class NettyClient {
         SpringApplication app = new SpringApplication(NettyClient.class);
         ApplicationContext ctx = app.run(args);
         ApplicationContextHelper.setApplicationContext(ctx);
-//        connect("192.168.1.23", 20108);
     }
 
     public static void connect(String ip, Integer port) {
@@ -34,6 +33,7 @@ public class NettyClient {
             bootstrap.group(new NioEventLoopGroup())
                     .channel(NioSocketChannel.class)
                     .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 4000)
+                    .option(ChannelOption.TCP_NODELAY, true)
                     .remoteAddress(ip, port)
                     .handler(new ChannelInitializer<SocketChannel>() {
                         @Override
